@@ -4,15 +4,21 @@
  * Module dependencies.
  */
 
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();    //.env → process.env  artık process.env.CONNECTION_STRING değil config.CONNECTION_STRING ile erişicen        
+}
+
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
+const Database = require("../db/Database"); //database i bağladık
+const { CONNECTION_STRING, PORT } = require("../config"); //connectionstring imizi import ettik
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(PORT);
 app.set('port', port);
 
 /**
@@ -87,4 +93,6 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  new Database().connect((CONNECTION_STRING)) //database i listening e ekleme
 }
