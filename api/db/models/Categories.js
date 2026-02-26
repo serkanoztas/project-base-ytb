@@ -1,8 +1,9 @@
-const mongoose = requiere(mongoose);
+const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
+    name: { type: String, required: true },
     is_active: { type: Boolean, default: true },
-    created_by: { type: mongoose.SchemaTypes.ObjectId, required: true }
+    created_by: { type: mongoose.SchemaTypes.ObjectId }
 },
     {    //times kımını mongoose kendi setler
         timestamps: {
@@ -12,9 +13,9 @@ const schema = mongoose.Schema({
     }
 )
 
-class Categoris extends mongoose.Model {
+class Categorises extends mongoose.Model {
 
 }
 
-schema.loadClass(Categoris);
-module.exports = mongoose.model("categoris", schema); //oluşturulacak tablonun adı ve şeması girilir
+schema.loadClass(Categorises);
+module.exports = mongoose.model("categories", schema); //oluşturulacak tablonun adı ve şeması girilir
