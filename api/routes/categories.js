@@ -9,13 +9,13 @@ const AuditLogs = require("../lib/AuditLogs");
 const logger = require('../lib/logger/LoggerClass');
 
 /* GET categoris listing. */
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
 
     try {
         let categories = await Categories.find({}); //find sorgu atmaya yarar
         res.json(Response.successResponse(categories));
     } catch (err) {
-        res.json(Response.errorResponse(err));
+        let errorResponse = res.json(Response.errorResponse(err));
         res.status(errorResponse.code).json(err);
     }
 
