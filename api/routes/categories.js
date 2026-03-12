@@ -7,9 +7,15 @@ const CustomError = require("../lib/Error");
 const Enum = require("../config/Enum");
 const AuditLogs = require("../lib/AuditLogs");
 const logger = require('../lib/logger/LoggerClass');
+const auth = require("../lib/auth")();
+
+
+router.all("*", auth.authenticate(), (req, res, next) => {
+    next();
+})
 
 /* GET categoris listing. */
-router.get('/', async (req, res) => {
+router.get('/', auth.checkRoles("categories_view"), async (req, res) => {
 
     try {
         let categories = await Categories.find({}); //find sorgu atmaya yarar
@@ -22,7 +28,7 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post("/add", async (req, res) => {
+router.post("/add", auth.checkRoles("categories_add"), async (req, res) => {
     let body = req.body;
     try {
 
@@ -47,7 +53,7 @@ router.post("/add", async (req, res) => {
     }
 });
 
-router.post("/update", async (req, res) => {
+router.post("/update", auth.checkRoles("categories_update"), async (req, res) => {
     let body = req.body;
     try {
 
@@ -69,7 +75,7 @@ router.post("/update", async (req, res) => {
     }
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", auth.checkRoles("categories_delete"), async (req, res) => {
     let body = req.body;
     try {
         if (!body._id) throw new CustomError(Enum.HTTP_CODES.BAD_REQUEST, "Validation Error!", "_id fields must be filled");
