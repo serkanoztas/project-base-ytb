@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  console.log("ben app.js te bir middleware im");
+  console.log("ben app.js te bir middleware im"); 
   next(); //sonraki middleware a gider
 })
 

@@ -5,8 +5,14 @@ const Response = require('../lib/Response');
 const CustomError = require('../lib/Error');
 const Enum = require('../config/Enum');
 const moment = require("moment");  //anlık tarihi döner
+const auth = require("../lib/auth")();
 
-router.post("/", async (req, res, next) => {
+//tüm /auditlogs a gelen istekler bu routerdan geçer
+router.all("*", auth.authenticate(), (req, res, next) => {
+    next();
+})
+
+router.post("/", auth.checkRoles("auditlogs_view"), async (req, res, next) => {
 
     try {
         let body = req.body;
